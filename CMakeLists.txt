@@ -8,8 +8,15 @@ project(ClassesExtended VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#include_directories(include)
+
+set(MANAGERS src/Classes/Managers/Manager.cpp src/Classes/Managers/PersonManager.cpp)
+set(RESOURCES src/Classes/Resources/resource.cpp)
+set(OBJECTS src/Classes/Objects/UsefulObjects.cpp src/Classes/Objects/House.cpp)
+set(PEOPLE src/Classes/People/People.cpp src/Classes/People/Workers.cpp src/Classes/People/Unemployed.cpp src/Classes/People/Farmers.cpp src/Classes/People/Loggers.cpp src/Classes/People//Miners.cpp)
+
 # Add the executable
-add_executable(ClassesExtended src/main.cpp src/Manager.cpp src/Resource.cpp src/UsefulObjects.cpp)
+add_executable(ClassesExtended main.cpp ${MANAGERS} ${RESOURCES} ${OBJECTS} ${PEOPLE})
 
 # Add the targeted cpp features
 target_compile_features(ClassesExtended PUBLIC cxx_std_20)

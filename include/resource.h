@@ -1,13 +1,7 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 #include <string>
-
-enum UsefulObjectTypes
-{
-    House,
-    Meal,
-    Tool
-};
+#include "UsefulObjects.h"
 
 enum ResourceTypes
 {
@@ -22,11 +16,11 @@ class Resource{
         std::string Name;
         int Amount;
         ResourceTypes ResourceType;
-        UsefulObjectTypes ObjectCreated;
+        UsefulObjectType ObjectCreated;
 
     public:
         Resource();
-        Resource(std::string name, int amount, ResourceTypes resourceType, UsefulObjectTypes objectCreated);
+        Resource(std::string name, int amount, ResourceTypes resourceType, UsefulObjectType objectCreated);
         std::string ResourceName();
         int Amounts();
         void UpdateAmount(int amount);

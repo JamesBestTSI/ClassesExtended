@@ -1,13 +1,14 @@
-#include "resource.h"
+#include "../../../include/resource.h"
 
 Resource::Resource()
 {
     Name = "NULL";
     Amount = 0;
     ResourceType = ResourceTypes::Wood;
-    ObjectCreated = UsefulObjectTypes::House;
+    ObjectCreated = UsefulObjectType::HouseObject;
 };
-Resource::Resource(std::string name, int amount, ResourceTypes resourceType, UsefulObjectTypes objectCreated){
+Resource::Resource(std::string name, int amount, ResourceTypes resourceType, UsefulObjectType objectCreated)
+{
     Name = name;
     Amount = amount;
     ResourceType = resourceType;

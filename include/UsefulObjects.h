@@ -2,6 +2,13 @@
 #define USEFULOBJECTS_H
 #include <string>
 
+enum UsefulObjectType
+{
+    HouseObject,
+    MealObject,
+    ToolObject
+};
+
 class UsefulObject{
     private:
         std::string Name;
