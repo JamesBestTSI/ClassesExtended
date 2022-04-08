@@ -1,10 +1,6 @@
 #ifndef PEOPLE_H
 #define PEOPLE_H
 #include <string>
-//#include "Unemployed.h"
-//#include "Miners.h"
-//#include "Loggers.h"
-//#include "Farmers.h"
 
 enum jobRole
 {
@@ -44,8 +40,8 @@ class People{
         void PRole(jobRole role);
 
         // Methods
-        bool PEat();
-        void PDie();
+        virtual bool PEat();
+        virtual void PDie();
 };
 
 #endif

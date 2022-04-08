@@ -170,14 +170,53 @@ void PersonManager::ListPersonInfo(int uid){
     // Find Person
     People personsDetails = FindPerson(uid);
 
-    std::cout << personsDetails.PUID() << std::endl;
+    std::cout << "[ID:" << personsDetails.PUID() << "] - ";
+    if (personsDetails.PHoused())   {std::cout << "Housed ";}
+    else                            {std::cout << "Homeless ";}
+    switch (personsDetails.PRole())
+    {
+        case jobRole::None:     { std::cout << "Unemployed "; break;}
+        case jobRole::Farmer:   { std::cout << "Farmer "; break; }
+        case jobRole::Logger:   { std::cout << "Logger "; break; }
+        case jobRole::Miner:    { std::cout << "Miner "; break; }
+        default:
+            break;
+    }
+
     std::cout << personsDetails.PName() << std::endl;
-    std::cout << personsDetails.PAge() << std::endl;
-    std::cout << personsDetails.PHunger() << std::endl;
-    // Housed       std::cout << personsDetails.PName() << std::endl;
-    // Job Role     std::cout << personsDetails.PName() << std::endl;
+    std::cout << "Age:    " << personsDetails.PAge() << std::endl;
+    std::cout << "Hunger: " << personsDetails.PHunger() << std::endl;
+};
+
+void PersonManager::ListPersonInfo(People *personsDetails){
+
+    std::cout << "[ID:" << personsDetails->PUID() << "] - ";
+    if (personsDetails->PHoused())   {std::cout << "Housed ";}
+    else                            {std::cout << "Homeless ";}
+    switch (personsDetails->PRole())
+    {
+        case jobRole::None:     { std::cout << "Unemployed "; break;}
+        case jobRole::Farmer:   { std::cout << "Farmer "; break; }
+        case jobRole::Logger:   { std::cout << "Logger "; break; }
+        case jobRole::Miner:    { std::cout << "Miner "; break; }
+        default:
+            break;
+    }
+
+    std::cout << personsDetails->PName() << std::endl;
+    std::cout << "Age:    " << personsDetails->PAge() << std::endl;
+    std::cout << "Hunger: " << personsDetails->PHunger() << std::endl;
 };
 
 void PersonManager::ListPeopleInRole(jobRole role){
 
+    if (role == jobRole::None){
+        std::list<Unemployed>::iterator person = unemployedPeople.begin();
+        for (int index = 0; index < unemployedPeople.size(); index++)
+        {
+            People *personptr = &*person;
+            ListPersonInfo(personptr);
+            ++person;
+        }
+    }
 };

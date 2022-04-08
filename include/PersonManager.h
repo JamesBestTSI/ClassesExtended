@@ -27,6 +27,7 @@ public:
     People FindPerson(int uid);
     void GivePersonJob(int uid, jobRole role);
     void ListPersonInfo(int uid);
+    void ListPersonInfo(People *personsDetails);
     void ListPeopleInRole(jobRole role);
 };
 

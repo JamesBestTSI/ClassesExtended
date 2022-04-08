@@ -19,6 +19,10 @@ int main()
 
     mainManager.DisplayData();
 
+    mainManager.personManager.ListPersonInfo(1);
+    mainManager.personManager.ListPeopleInRole(jobRole::None);
+
+    
 
     mainManager.GetResource("Wood")->UpdateAmount(1);
 
