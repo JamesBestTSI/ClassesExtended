@@ -289,7 +289,7 @@ void PersonManager::ListPersonInfo(People *personsDetails){
             break;
     }
 
-    std::cout << personsDetails->PName() << std::endl;
+    std::cout << personsDetails->PName() << "  -  ";
     std::cout << "Age:    " << personsDetails->PAge() << "    -    " << "Hunger: " << personsDetails->PHunger() << std::endl;
 };
 
@@ -343,4 +343,138 @@ void PersonManager::ListPeopleInRole(jobRole role){
     default:
         break;
     }
+};
+
+void PersonManager::FeedPeople(std::list<Meals>* meals)
+{
+    std::list<Farmers>::iterator farmer = farmerPeople.begin();
+    for (int index = 0; index < farmerPeople.size(); index++)
+    {
+        farmer->PHunger(farmer->PHunger() + hungerSpeed);
+        if (farmer->PHunger() >= 100)
+        {
+            if (meals->size() > 0)
+            {
+                std::cout << "Feeding farmer " << farmer->PUID() << std::endl;
+                meals->pop_front();
+                farmer->PEat();
+            }
+            else
+            {
+                std::cout << "Can't feed farmer " << farmer->PUID() << std::endl;
+            }
+        }
+        ++farmer;
+    }
+
+    std::list<Miners>::iterator miner = minerPeople.begin();
+    for (int index = 0; index < minerPeople.size(); index++)
+    {
+        miner->PHunger(miner->PHunger() + hungerSpeed);
+        if (miner->PHunger() >=100)
+        {
+            if (meals->size() > 0)
+            {
+                std::cout << "Feeding miner " << miner->PUID() << std::endl;
+                meals->pop_front();
+                miner->PEat();
+            }
+            else
+            {
+                std::cout << "Can't feed miner " << miner->PUID() << std::endl;
+            }
+        }
+        ++miner;
+    }
+
+    std::list<Loggers>::iterator logger = loggerPeople.begin();
+    for (int index = 0; index < loggerPeople.size(); index++)
+    {
+        logger->PHunger(logger->PHunger() + hungerSpeed);
+        if (logger->PHunger() >=100)
+        {
+            if (meals->size() > 0)
+            {
+                std::cout << "Feeding logger " << logger->PUID() << std::endl;
+                meals->pop_front();
+                logger->PEat();
+            }
+            else
+            {
+                std::cout << "Can't feed logger " << logger->PUID() << std::endl;
+            }
+        }
+        ++logger;
+    }
+
+    std::list<Unemployed>::iterator person = unemployedPeople.begin();
+    for (int index = 0; index < unemployedPeople.size(); index++)
+    {
+        person->PHunger(person->PHunger() + hungerSpeed);
+        if (person->PHunger() >=100)
+        {
+            if (meals->size() > 0)
+            {
+                std::cout << "Feeding person " << person->PUID() << std::endl;
+                meals->pop_front();
+                person->PEat();
+            }
+            else
+            {
+                std::cout << "Can't feed person " << person->PUID() << std::endl;
+            }
+        }
+        ++person;
+    }
+};
+
+int* PersonManager::MakeResources(int resources[3]){
+    int wood = 0;
+    int stone = 0;
+    int crops = 0;
+
+    std::list<Farmers>::iterator farmer = farmerPeople.begin();
+    for (int index = 0; index < farmerPeople.size(); index++)
+    {
+        if (farmer->PHoused() && farmer->PHunger() <100)
+        {
+            crops++;
+            if(farmer->HasTool()){
+                crops++;
+            }
+        }
+        ++farmer;
+    }
+
+    std::list<Miners>::iterator miner = minerPeople.begin();
+    for (int index = 0; index < minerPeople.size(); index++)
+    {
+        if (miner->PHoused() && miner->PHunger() < 100)
+        {
+            stone++;
+            if (miner->HasTool())
+            {
+                stone++;
+            }
+        }
+        ++miner;
+    }
+
+    std::list<Loggers>::iterator logger = loggerPeople.begin();
+    for (int index = 0; index < loggerPeople.size(); index++)
+    {
+        if (logger->PHoused() && logger->PHunger() < 100)
+        {
+            wood++;
+            if (logger->HasTool())
+            {
+                wood++;
+            }
+        }
+        ++logger;
+    }
+    resources[0] = wood;
+    resources[1] = stone;
+    resources[2] = crops;
+    return resources;
 };

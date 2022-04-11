@@ -102,20 +102,25 @@ void Manager::DisplayData()
               << loggerSize << " Logger - " << minerSize << " Miner - " << farmerSize << " Farmer - " << unemployedSize << " Unemployed" << std::endl;
     std::cout << "Usable:         " << housesSize << " Houses - " << mealsSize << " Meals - " << toolsSize << " Tools" << std::endl;
     std::cout << "Resources:      " << wood->Amounts() << " Wood - " << stone->Amounts() << " Stone - " << crops->Amounts() << " Crops" << std::endl;
-
+    std::cout << "\n\n";
+    if (personManager.unemployedCount()>0){
+        std::cout << "You have " << personManager.unemployedCount() << " unemployed people!" << std::endl;
+        personManager.ListPeopleInRole(jobRole::None);
+        std::cout << "\n\n";
+    }
 };
 
 bool Manager::DisplayChoices(){
-
-    std::cout << "What would you like to do?" << std::endl;
-    std::cout << "[V] - View Things" << std::endl;
-    std::cout << "[C] - Create Things" << std::endl;
-    std::cout << "[G] - Give Things" << std::endl;
-    std::cout << "[F] - Fix Houses" << std::endl;
-    std::cout << "[A] - Advance A Day" << std::endl;
+    char option = '#';
+    std::cout << "What would you like to do?\n";
+    std::cout << "[ V ] - View Things\n";
+    std::cout << "[ C ] - Create Things\n";
+    std::cout << "[ G ] - Give Things\n";
+    std::cout << "[ F ] - Fix Houses\n";
+    std::cout << "[ Enter ] - Advance A Day" << std::endl;
 
     std::cout << "Option: ";
-    char option = std::toupper(getchar());
+    option = std::toupper(getchar());
     std::cin.ignore();
 
     switch (option)
@@ -144,9 +149,9 @@ bool Manager::DisplayChoices(){
         return false;
         break;
     }
-    case 'A':
+    case '\n':
     {
-        // AdvanceDay();
+        AdvanceDay();
         return true;
         break;
     }
@@ -164,10 +169,10 @@ bool Manager::DisplayChoices(){
 void Manager::DisplayOptions()
 {
     std::cout << "What would you like to do?" << std::endl;
-    std::cout << "[P] - View People" << std::endl;
-    std::cout << "[H] - View Houses" << std::endl;
-    std::cout << "[M] - View Meals" << std::endl;
-    std::cout << "[T] - View Tools" << std::endl;
+    std::cout << "[ P ] - View People" << std::endl;
+    std::cout << "[ H ] - View Houses" << std::endl;
+    std::cout << "[ M ] - View Meals" << std::endl;
+    std::cout << "[ T ] - View Tools" << std::endl;
 
     std::cout << "Option: ";
     char option = std::toupper(getchar());
@@ -280,7 +285,6 @@ void Manager::GiveOptions(){
  * 
  */
 void Manager::ListPersonOptions(){
-    system("cls");
     std::cout << "What would you like to do?" << std::endl;
     std::cout << "[P] - View Person Using ID" << std::endl;
     std::cout << "[J] - View People With Specific Role" << std::endl;
@@ -314,7 +318,6 @@ void Manager::ListPersonOptions(){
  */
 void Manager::ListPersonByID()
 {
-    system("cls");
     std::cout << "Please enter a ID number: ";
     int UID = GetInt();
     system("cls");
@@ -327,8 +330,7 @@ void Manager::ListPersonByID()
  */
 void Manager::ListPeopleByRole()
 {
-    system("cls");
-    std::cout << "Please enter a Job Role number [Miner] [Farmer] [Logger]: ";
+    std::cout << "Please enter a Job Role number [Miner] [Farmer] [Logger] [None] [All]: ";
     char option = std::toupper(getchar());
     std::cin.ignore();
     system("cls");
@@ -347,6 +349,19 @@ void Manager::ListPeopleByRole()
         case 'L':
         {
             personManager.ListPeopleInRole(jobRole::Logger);
+            break;
+        }
+        case 'N':
+        {
+            personManager.ListPeopleInRole(jobRole::None);
+            break;
+        }
+        case 'A':
+        {
+            personManager.ListPeopleInRole(jobRole::Miner);
+            personManager.ListPeopleInRole(jobRole::Farmer);
+            personManager.ListPeopleInRole(jobRole::Logger);
+            personManager.ListPeopleInRole(jobRole::None);
             break;
         }
         default:
@@ -416,9 +431,14 @@ bool Manager::CreatePerson()
         std::cout << "There doesn't seem to be space for new people,\nTry building new houses." << std::endl;
         return false;
     }
-    People newPerson = People("James", 32, jobRole::None);
-    personManager.AddPerson(newPerson);
+    std::string newname;
+    std::cout << "Please Enter a Name for a new person: ";
+    std::cin >> newname;
+
+    People newPerson = People(newname, 32, jobRole::None);
     newPerson.home = homeWithSpace;
+    newPerson.PHoused(true);
+    personManager.AddPerson(newPerson);
     homeWithSpace->AddPersonToHouse(newPerson.PUID());
     return true;
 };
@@ -500,22 +520,6 @@ bool Manager::CreateTool()
     return false;
 };
 
-void Manager::UpdatePeople()
-{
-}
-
-void Manager::UpdateHouses()
-{
-}
-
-void Manager::UpdateMeals()
-{
-}
-
-void Manager::UpdateTools()
-{
-}
-
 /**
  * @brief Finds and returns a house that has space for a person to move into
  * 
@@ -583,7 +587,6 @@ void Manager::GivePersonJob(){
     std::cout << "What role do you want to give to them? [Miner] [Farmer] [Logger]\nRole: ";
     char option = std::toupper(getchar());
     std::cin.ignore();
-    system("cls");
     switch (option)
     {
     case 'M':
@@ -694,25 +697,65 @@ void Manager::FixHouse(){
     }
 };
 
+void Manager::AdvanceDay(){
+    std::cout << "A day has passed" << std::endl;
+    UpdatePeople();
+    UpdateTools();
+    UpdateMeals();
+    UpdateHouses();
+};
 
+void Manager::UpdatePeople()
+{
+    personManager.FeedPeople(&meals);
+    std::cout << "People Fed!" << std::endl;
+    int resourcesWSC[3];
+   
+    personManager.MakeResources(resourcesWSC);
+    GetResource("Wood")->UpdateAmount(resourcesWSC[0]);
+    GetResource("Stone")->UpdateAmount(resourcesWSC[1]);
+    GetResource("Crops")->UpdateAmount(resourcesWSC[2]);
+    std::cout << "Resources Gained!" << std::endl;
+}
 
+void Manager::UpdateHouses()
+{
+    std::list<House>::iterator house = houses.begin();
+    for (int index = 0; index < houses.size(); index++)
+    {
+        house->UpdateDurability(-4);
+        if (house->Durabilities() <=0){
+            // Unhouse people
+            house->UnhousePeople();
+        }
+        ++house;
+    }
+}
 
+void Manager::UpdateMeals()
+{
+    std::list<Meals>::iterator meal = meals.begin();
+    for (int index = 0; index < meals.size(); index++)
+    {
+        meal->UpdateDurability(-3);
+        if(meal->Durabilities()<=0){
+            meals.erase(meal); //Possible error here when deleting, check
+        }
+        ++meal; // Might not need this if something hist 0 durability
+    }
+}
 
-
-// void Manager::UpdatePeople(){
-
-//     std::list<Unemployed>::iterator person = unemployedPeople.begin();
-//     for (int i = 0; i < unemployedPeople.size(); i++)
-//     {
-//         if (person->PHunger() == 100 && meals.size() > 0){
-//             // Man be hungry and we have a meal available
-//             ConsumeMeal();
-//             person->PEat();
-//         }
-//         else if (person->PHunger() == 100){
-//             // Man be hungry but no meals free
-//             // EAT FINGERS!
-//         }
-//         ++person;
-//     }
-// };
+void Manager::UpdateTools()
+{
+    std::list<Tools>::iterator tool = tools.begin();
+    for (int index = 0; index < tools.size(); index++)
+    {
+        if(!tool->Available()){
+            tool->UpdateDurability(-5);
+        }
+        if(tool->Durabilities() <=0){
+            tools.erase(tool);
+        }
+        ++tool;
+    }
+}

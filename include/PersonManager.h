@@ -8,9 +8,11 @@
 #include "Farmers.h"
 #include "Unemployed.h"
 #include "Tools.h"
+#include "Meals.h"
 
 class PersonManager{
 private:
+    int hungerSpeed = 10;
     int peopleUID = 0;
     std::list<Unemployed> unemployedPeople{};
     std::list<Miners> minerPeople{};
@@ -31,6 +33,8 @@ public:
     void ListPersonInfo(int uid);
     void ListPersonInfo(People *personsDetails);
     void ListPeopleInRole(jobRole role);
+    void FeedPeople(std::list<Meals>* meals);
+    int* MakeResources(int resourcesWSC[3]);
 };
 
 #endif

@@ -34,5 +34,8 @@ void People::PHoused(bool housed)       { Housed = housed; };
 void People::PRole(jobRole role)        { Role = role; };
 
 // Methods
-bool People::PEat() { return true; };
+bool People::PEat() {
+    Hunger = 0;
+    return true;
+};
 void People::PDie(){};

@@ -13,6 +13,7 @@ Unemployed::Unemployed(People person){
 };
 
 
-bool Unemployed::PEat() { return true; };
-
-
+bool Unemployed::PEat() {
+    PHunger(50);
+    return true;
+};

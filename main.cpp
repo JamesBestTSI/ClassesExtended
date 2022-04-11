@@ -12,11 +12,9 @@ int main()
     mainManager.CreatePerson();
     mainManager.CreatePerson();
     mainManager.CreatePerson();
-    mainManager.CreateTool();
-    mainManager.personManager.GivePersonJob(0, jobRole::Miner);
-    mainManager.personManager.GivePersonJob(1, jobRole::Logger);
-    mainManager.personManager.GivePersonJob(2, jobRole::Farmer);
-    mainManager.GivePersonTool();
+    //mainManager.personManager.GivePersonJob(0, jobRole::Miner);
+    //mainManager.personManager.GivePersonJob(1, jobRole::Logger);
+    //mainManager.personManager.GivePersonJob(2, jobRole::Farmer);
 
 
 
@@ -29,12 +27,13 @@ int main()
         {
             mainManager.DisplayData();
             advanceDay = mainManager.DisplayChoices();
+            std::cout << "Press Enter to continue.. " << std::endl;
+            char option = std::toupper(getchar());
+            system("cls");
         }
     }
 
-    
-
-    mainManager.GetResource("Wood")->UpdateAmount(1);
+        mainManager.GetResource("Wood")->UpdateAmount(1);
 
 
 

@@ -66,13 +66,14 @@ class Manager{
 
         void GivePersonJob();
         void GivePersonTool();
-        
+
         void FixHouse();
 
         /*****************/
         /* Update things */
         /*****************/
 
+        void AdvanceDay();
         void UpdatePeople();
         void UpdateHouses();
         void UpdateMeals();

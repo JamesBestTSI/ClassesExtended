@@ -14,3 +14,7 @@ void House::AddPersonToHouse(int personUID){
 bool House::Fix(int amount){
     UpdateDurability(amount);
 }
+
+void House::UnhousePeople(){
+    
+};
