@@ -10,3 +10,7 @@ int House::NumberOfPeopleInHouse(){
 void House::AddPersonToHouse(int personUID){
     PeopleInHouseUIDs.push_back(personUID);
 };
+
+bool House::Fix(int amount){
+    UpdateDurability(amount);
+}

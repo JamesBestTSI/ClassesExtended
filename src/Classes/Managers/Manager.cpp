@@ -110,6 +110,8 @@ bool Manager::DisplayChoices(){
     std::cout << "What would you like to do?" << std::endl;
     std::cout << "[V] - View Things" << std::endl;
     std::cout << "[C] - Create Things" << std::endl;
+    std::cout << "[G] - Give Things" << std::endl;
+    std::cout << "[F] - Fix Houses" << std::endl;
     std::cout << "[A] - Advance A Day" << std::endl;
 
     std::cout << "Option: ";
@@ -127,6 +129,18 @@ bool Manager::DisplayChoices(){
     case 'C':
     {
         CreateOptions();
+        return false;
+        break;
+    }
+    case 'G':
+    {
+        GiveOptions();
+        return false;
+        break;
+    }
+    case 'F':
+    {
+        FixHouse();
         return false;
         break;
     }
@@ -222,6 +236,37 @@ void Manager::CreateOptions(){
     case 'T':
     {
         CreateTool();
+        break;
+    }
+
+    default:
+        break;
+    }
+};
+
+/**
+ * @brief Allows the user to choose to give a persona job or tools
+ * 
+ */
+void Manager::GiveOptions(){
+    std::cout << "What would you like to do?" << std::endl;
+    std::cout << "[T] - Give People Tools" << std::endl;
+    std::cout << "[J] - Give People Jobs" << std::endl;
+
+    std::cout << "Option: ";
+    char option = std::toupper(getchar());
+    std::cin.ignore();
+
+    switch (option)
+    {
+    case 'T':
+    {
+        GivePersonTool();
+        break;
+    }
+    case 'J':
+    {
+        GivePersonJob();
         break;
     }
 
@@ -371,9 +416,10 @@ bool Manager::CreatePerson()
         std::cout << "There doesn't seem to be space for new people,\nTry building new houses." << std::endl;
         return false;
     }
-    People James1 = People("James", 32, jobRole::None);
-    personManager.AddPerson(James1);
-    homeWithSpace->AddPersonToHouse(James1.PUID());
+    People newPerson = People("James", 32, jobRole::None);
+    personManager.AddPerson(newPerson);
+    newPerson.home = homeWithSpace;
+    homeWithSpace->AddPersonToHouse(newPerson.PUID());
     return true;
 };
 
@@ -559,6 +605,99 @@ void Manager::GivePersonJob(){
         break;
     }
 };
+
+/**
+ * @brief Allows the user to give a person a tool
+ * 
+ */
+void Manager::GivePersonTool(){
+    // Find free tool
+    bool toolAvailable = false;
+    std::list<Tools>::iterator tool = tools.begin();
+    for (int toolIndex = 0; toolIndex < tools.size(); toolIndex++)
+    {
+        if (!tool->Available())
+        {
+            ++tool;
+        }
+        else
+        {
+            toolAvailable = true;
+            toolIndex = tools.size();
+        }
+    }
+
+    if (!toolAvailable){
+        std::cout << "No free tools available!" << std::endl;
+    }
+    else{
+        std::cout << "To give a person a tool, please enter a person ID" << std::endl;
+        std::cout << "ID: ";
+        int uid = GetInt();
+        People person = personManager.FindPerson(uid);
+        if (person.PUID() == -1)
+        {
+            std::cout << "Person not found!" << std::endl;
+            return;
+        }
+        std::cout << "\nYou selected ";
+        personManager.ListPersonInfo(uid);
+        if (person.PRole() != jobRole::None)
+        {
+            personManager.GivePersonTool(person.PUID(), person.PRole(), &*tool);
+            std::cout << "Person ID: " << person.PUID() << " " << person.PName() << " now has tool!" << std::endl;
+        }
+    }
+};
+
+/**
+ * @brief Allows the user to fix up a house using wood
+ * 
+ */
+void Manager::FixHouse(){
+    std::cout << "To fix up a house please enter a house ID" << std::endl;
+    std::cout << "ID: ";
+    int uid = GetInt();
+
+    bool foundHouse = false;
+    std::list<House>::iterator house = houses.begin();
+    for (int index = 0; index < houses.size(); index++)
+    {
+        if (house->GetID() != uid)
+        {
+            ++house;
+        }
+        else{
+            foundHouse = true;
+            index = houses.size();
+        }
+    }
+
+    if (foundHouse){
+        std::cout << "This house has " << house->Durabilities() << "% durability." << std::endl;
+        std::cout << "To fix the house please enter an amount of wood to use.\n1 Wood = 10%\nWood To Use:";
+        int woodToUse = GetInt();
+        if (GetResource("Wood")->Amounts()>woodToUse){
+            int maxFix = 100 - house->Durabilities();
+            int woodCanBeUsed = (maxFix / 10) + 1;
+            if (woodToUse>0 && woodToUse<=woodCanBeUsed){
+                house->Fix(woodToUse * 10);    
+            }
+            GetResource("Wood")->UpdateAmount(-woodToUse);
+        }
+        else{
+            std::cout << "Not enough wood" << std::endl;
+        }
+    }
+    else{
+        std::cout << "No house with that ID found!" << std::endl;
+    }
+};
+
+
+
+
+
 
 // void Manager::UpdatePeople(){
 

@@ -43,6 +43,7 @@ class Manager{
         bool DisplayChoices();
         void DisplayOptions();
         void CreateOptions();
+        void GiveOptions();
         void ListPersonOptions();
         void ListPersonByID();
         void ListPeopleByRole();
@@ -59,6 +60,14 @@ class Manager{
         bool CreateMeal();
         bool CreateTool();
 
+        House *FindHouseWithSpace();
+
+        void ConsumeMeal();
+
+        void GivePersonJob();
+        void GivePersonTool();
+        
+        void FixHouse();
 
         /*****************/
         /* Update things */
@@ -69,12 +78,6 @@ class Manager{
         void UpdateMeals();
         void UpdateTools();
 
-        House *FindHouseWithSpace();
 
-        void ConsumeMeal();
-
-        void GivePersonJob();
-        void GivePersonTool();
-        void FixHouse();
 };
 #endif

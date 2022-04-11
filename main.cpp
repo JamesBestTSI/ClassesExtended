@@ -12,9 +12,13 @@ int main()
     mainManager.CreatePerson();
     mainManager.CreatePerson();
     mainManager.CreatePerson();
+    mainManager.CreateTool();
     mainManager.personManager.GivePersonJob(0, jobRole::Miner);
     mainManager.personManager.GivePersonJob(1, jobRole::Logger);
     mainManager.personManager.GivePersonJob(2, jobRole::Farmer);
+    mainManager.GivePersonTool();
+
+
 
     bool playGame = true;
 

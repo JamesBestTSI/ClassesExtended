@@ -7,6 +7,7 @@
 #include "Loggers.h"
 #include "Farmers.h"
 #include "Unemployed.h"
+#include "Tools.h"
 
 class PersonManager{
 private:
@@ -26,6 +27,7 @@ public:
     int loggerCount();
     People FindPerson(int uid);
     void GivePersonJob(int uid, jobRole role);
+    void GivePersonTool(int uid, jobRole role, Tools *tool);
     void ListPersonInfo(int uid);
     void ListPersonInfo(People *personsDetails);
     void ListPeopleInRole(jobRole role);

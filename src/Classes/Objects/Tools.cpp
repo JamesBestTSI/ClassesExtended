@@ -2,5 +2,11 @@
 #include <string>
 
 Tools::Tools(){};
-    
 
+bool Tools::Available() { return available; };
+
+void Tools::Available(bool isavailable) { available = isavailable; };
+
+void Tools::SetOwner(People *person){
+    owner = person;
+}

@@ -1,6 +1,7 @@
 #ifndef PEOPLE_H
 #define PEOPLE_H
 #include <string>
+#include "House.h"
 
 enum jobRole
 {
@@ -42,6 +43,8 @@ class People{
         // Methods
         virtual bool PEat();
         virtual void PDie();
+
+        House *home;
 };
 
 #endif

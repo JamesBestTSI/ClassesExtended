@@ -1,4 +1,5 @@
 #include "../../../include/PersonManager.h"
+
 #include <string>
 
 PersonManager::PersonManager(){};
@@ -168,6 +169,82 @@ void PersonManager::GivePersonJob(int uid, jobRole role){
     // Add person with new role
     personsDetails.PRole(role);
     AddPerson(personsDetails);
+};
+
+void PersonManager::GivePersonTool(int uid, jobRole role, Tools *tool){
+
+    tool->Available(false);
+    switch (role)
+    {
+    case jobRole::Miner:
+    {
+        std::list<Miners>::iterator person = minerPeople.begin();
+        for (int index = 0; index < minerPeople.size(); index++)
+        {
+            if (person->PUID() == uid){
+                if(person->HasTool()){
+                    std::cout << "This person has a tool" << std::endl;
+                }
+                else{
+                    // Give tool thats available
+                    person->GiveTool(&*tool);
+                    tool->SetOwner(&*person);
+                    return;
+                }
+            }
+            ++person;
+        }
+        break;
+    }
+    case jobRole::Farmer:
+    {
+        std::list<Farmers>::iterator person = farmerPeople.begin();
+        for (int index = 0; index < farmerPeople.size(); index++)
+        {
+            if (person->PUID() == uid)
+            {
+                if (person->HasTool())                {
+                    std::cout << "This person has a tool" << std::endl;
+                    return;
+                }
+                else
+                {
+                    // Give tool thats available
+                    person->GiveTool(&*tool);
+                    tool->SetOwner(&*person);
+                    return;
+                }
+            }
+            ++person;
+        }
+        break;
+    }
+    case jobRole::Logger:
+    {
+        std::list<Loggers>::iterator person = loggerPeople.begin();
+        for (int index = 0; index < loggerPeople.size(); index++)
+        {
+            if (person->PUID() == uid)
+            {
+                if (person->HasTool())                {
+                    std::cout << "This person has a tool" << std::endl;
+                    return;
+                }
+                else
+                {
+                    // Give tool thats available
+                    person->GiveTool(&*tool);
+                    tool->SetOwner(&*person);
+                    return;
+                }
+            }
+            ++person;
+        }
+        break;
+    }
+    default:
+        break;
+    }
 };
 
 void PersonManager::ListPersonInfo(int uid){

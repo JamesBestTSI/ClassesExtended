@@ -12,7 +12,7 @@ class House : public UsefulObject {
         House();
         int NumberOfPeopleInHouse();
         void AddPersonToHouse(int personUID);
-        bool Fix();
+        bool Fix(int amount);
         void UnhousePeople();
 };
 

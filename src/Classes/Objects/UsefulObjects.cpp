@@ -13,4 +13,9 @@ void UsefulObject::UsefulObjectName(std::string name) { Name = name; };
 int UsefulObject::Amounts() { return Amount; };
 void UsefulObject::UpdateAmount(int amount) { Amount += amount; };
 int UsefulObject::Durabilities() { return Durability; };
-void UsefulObject::UpdateDurability(int amount) { Durability += amount; };
+void UsefulObject::UpdateDurability(int amount) { 
+    Durability += amount; 
+    if (Durability>100){
+        Durability = 100;
+    }
+};
