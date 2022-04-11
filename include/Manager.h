@@ -17,26 +17,60 @@ class Manager{
         std::list<Meals> meals{};
         std::list<Tools> tools{};
         int peopleUID = 0;
+        int houseUID = 0;
         int peoplePerHouse = 3;
 
     public:
         PersonManager personManager;
         // Constructor
         Manager();
+        int GetInt();
 
-        // Resource Management
+
+        /***********************/
+        /* Resource Management */
+        /***********************/
+
         void AddResource(Resource resource);
         Resource *GetResource(std::string resourceType);
 
-        void ConsumeMeal();
+
+        /*****************/
+        /* Display things */
+        /*****************/
 
         void DisplayData();
+        bool DisplayChoices();
+        void DisplayOptions();
+        void CreateOptions();
+        void ListPersonOptions();
+        void ListPersonByID();
+        void ListPeopleByRole();
+        void ListHouses();
+        void ListMeals();
+        void ListTools();
 
+        /*****************/
+        /* Create things */
+        /*****************/
+
+        bool CreatePerson();
         bool CreateHouse();
         bool CreateMeal();
         bool CreateTool();
-        bool CreatePerson();
+
+
+        /*****************/
+        /* Update things */
+        /*****************/
+
+        void UpdatePeople();
+        void UpdateHouses();
+        void UpdateMeals();
+        void UpdateTools();
 
         House *FindHouseWithSpace();
+
+        void ConsumeMeal();
 };
 #endif

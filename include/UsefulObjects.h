@@ -11,6 +11,7 @@ enum UsefulObjectType
 
 class UsefulObject{
     private:
+        int UID;
         std::string Name;
         int Amount;
         int Durability;
@@ -18,7 +19,10 @@ class UsefulObject{
     public:
         UsefulObject();
         UsefulObject(std::string name, int amount, int durability);
+        void SetID(int uid);
+        int GetID();
         std::string UsefulObjectName();
+        void UsefulObjectName(std::string name);
         int Amounts();
         void UpdateAmount(int amount);
         int Durabilities();

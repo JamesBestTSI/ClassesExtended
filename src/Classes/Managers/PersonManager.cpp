@@ -170,22 +170,27 @@ void PersonManager::ListPersonInfo(int uid){
     // Find Person
     People personsDetails = FindPerson(uid);
 
-    std::cout << "[ID:" << personsDetails.PUID() << "] - ";
-    if (personsDetails.PHoused())   {std::cout << "Housed ";}
-    else                            {std::cout << "Homeless ";}
-    switch (personsDetails.PRole())
-    {
-        case jobRole::None:     { std::cout << "Unemployed "; break;}
-        case jobRole::Farmer:   { std::cout << "Farmer "; break; }
-        case jobRole::Logger:   { std::cout << "Logger "; break; }
-        case jobRole::Miner:    { std::cout << "Miner "; break; }
-        default:
-            break;
-    }
+    if (personsDetails.PUID() != -1){
+        std::cout << "[ID:" << personsDetails.PUID() << "] - ";
+        if (personsDetails.PHoused())   {std::cout << "Housed ";}
+        else                            {std::cout << "Homeless ";}
+        switch (personsDetails.PRole())
+        {
+            case jobRole::None:     { std::cout << "Unemployed "; break;}
+            case jobRole::Farmer:   { std::cout << "Farmer "; break; }
+            case jobRole::Logger:   { std::cout << "Logger "; break; }
+            case jobRole::Miner:    { std::cout << "Miner "; break; }
+            default:
+                break;
+        }
 
-    std::cout << personsDetails.PName() << std::endl;
-    std::cout << "Age:    " << personsDetails.PAge() << std::endl;
-    std::cout << "Hunger: " << personsDetails.PHunger() << std::endl;
+        std::cout << personsDetails.PName() << std::endl;
+        std::cout << "Age:    " << personsDetails.PAge() << std::endl;
+        std::cout << "Hunger: " << personsDetails.PHunger() << std::endl;
+    }
+    else{
+        std::cout << "Person with that ID does not exist!" << std::endl;
+    }
 };
 
 void PersonManager::ListPersonInfo(People *personsDetails){
@@ -204,13 +209,14 @@ void PersonManager::ListPersonInfo(People *personsDetails){
     }
 
     std::cout << personsDetails->PName() << std::endl;
-    std::cout << "Age:    " << personsDetails->PAge() << std::endl;
-    std::cout << "Hunger: " << personsDetails->PHunger() << std::endl;
+    std::cout << "Age:    " << personsDetails->PAge() << "    -    " << "Hunger: " << personsDetails->PHunger() << std::endl;
 };
 
 void PersonManager::ListPeopleInRole(jobRole role){
-
-    if (role == jobRole::None){
+    switch (role)
+    {
+    case jobRole::None:
+    {
         std::list<Unemployed>::iterator person = unemployedPeople.begin();
         for (int index = 0; index < unemployedPeople.size(); index++)
         {
@@ -218,5 +224,42 @@ void PersonManager::ListPeopleInRole(jobRole role){
             ListPersonInfo(personptr);
             ++person;
         }
+        break;
+    }
+    case jobRole::Miner:
+    {
+        std::list<Miners>::iterator person = minerPeople.begin();
+        for (int index = 0; index < minerPeople.size(); index++)
+        {
+            People *personptr = &*person;
+            ListPersonInfo(personptr);
+            ++person;
+        }
+        break;
+    }
+    case jobRole::Farmer:
+    {
+        std::list<Farmers>::iterator person = farmerPeople.begin();
+        for (int index = 0; index < farmerPeople.size(); index++)
+        {
+            People *personptr = &*person;
+            ListPersonInfo(personptr);
+            ++person;
+        }
+        break;
+    }
+    case jobRole::Logger:
+    {
+        std::list<Loggers>::iterator person = loggerPeople.begin();
+        for (int index = 0; index < loggerPeople.size(); index++)
+        {
+            People *personptr = &*person;
+            ListPersonInfo(personptr);
+            ++person;
+        }
+        break;
+    }
+    default:
+        break;
     }
 };

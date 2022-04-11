@@ -2,7 +2,7 @@
 #define TOOLS_H
 #include "UsefulObjects.h"
 
-class Tools : UsefulObject{
+class Tools : public UsefulObject{
     private:
 
     public:

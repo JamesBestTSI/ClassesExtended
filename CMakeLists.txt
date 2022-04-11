@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(MANAGERS src/Classes/Managers/Manager.cpp src/Classes/Managers/PersonManager.cpp)
 set(RESOURCES src/Classes/Resources/resource.cpp)
-set(OBJECTS src/Classes/Objects/UsefulObjects.cpp src/Classes/Objects/House.cpp)
+set(OBJECTS src/Classes/Objects/UsefulObjects.cpp src/Classes/Objects/House.cpp src/Classes/Objects/Meals.cpp src/Classes/Objects/Tools.cpp)
 set(PEOPLE src/Classes/People/People.cpp src/Classes/People/Workers.cpp src/Classes/People/Unemployed.cpp src/Classes/People/Farmers.cpp src/Classes/People/Loggers.cpp src/Classes/People//Miners.cpp)
 
 # Add the executable

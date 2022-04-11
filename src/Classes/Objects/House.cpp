@@ -1,7 +1,6 @@
 #include "../../../include/House.h"
 
 House::House(){
-    
 };
 
 int House::NumberOfPeopleInHouse(){
