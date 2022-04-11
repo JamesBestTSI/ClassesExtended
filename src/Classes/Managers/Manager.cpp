@@ -519,6 +519,47 @@ void Manager::ConsumeMeal()
     meals.erase(meal);
 };
 
+/**
+ * @brief Allows the user to select a person to give them a role
+ * 
+ */
+void Manager::GivePersonJob(){
+    std::cout << "To give a person a job, please enter a person ID" << std::endl;
+    std::cout << "ID: ";
+    int uid = GetInt();
+    People person = personManager.FindPerson(uid);
+    if (person.PUID() == -1){
+        std::cout << "Person not found!" << std::endl;
+        return;
+    }
+    std::cout << "\nYou selected ";
+    personManager.ListPersonInfo(uid);
+    std::cout << "What role do you want to give to them? [Miner] [Farmer] [Logger]\nRole: ";
+    char option = std::toupper(getchar());
+    std::cin.ignore();
+    system("cls");
+    switch (option)
+    {
+    case 'M':
+    {
+        personManager.GivePersonJob(uid, jobRole::Miner);
+        break;
+    }
+    case 'F':
+    {
+        personManager.GivePersonJob(uid, jobRole::Farmer);
+        break;
+    }
+    case 'L':
+    {
+        personManager.GivePersonJob(uid, jobRole::Logger);
+        break;
+    }
+    default:
+        break;
+    }
+};
+
 // void Manager::UpdatePeople(){
 
 //     std::list<Unemployed>::iterator person = unemployedPeople.begin();

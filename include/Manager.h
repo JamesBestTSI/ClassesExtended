@@ -72,5 +72,9 @@ class Manager{
         House *FindHouseWithSpace();
 
         void ConsumeMeal();
+
+        void GivePersonJob();
+        void GivePersonTool();
+        void FixHouse();
 };
 #endif

@@ -159,6 +159,10 @@ People PersonManager::FindPerson(int uid){
 void PersonManager::GivePersonJob(int uid, jobRole role){
     // Find Person
     People personsDetails = FindPerson(uid);
+    if (personsDetails.PUID() == -1){
+        std::cout << "Unable to give person role, person with ID doesn't exist" << std::endl;
+        return;
+    }
     // Remove old person
     RemovePerson(personsDetails.PRole(), personsDetails.PUID());
     // Add person with new role
