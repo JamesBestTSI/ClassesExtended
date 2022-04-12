@@ -9,3 +9,8 @@ void Workers::GiveTool(Tools *toolGiven){
 };
 
 bool Workers::HasTool() { return hasTool; };
+
+void Workers::RemoveTool(){
+    tool = NULL;
+    hasTool = false;
+};

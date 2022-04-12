@@ -2,7 +2,6 @@
 #define WORKERS_H
 #include "People.h"
 #include "Tools.h"
-
 class Workers : public People{
     private:
         bool hasTool = false;
@@ -11,6 +10,7 @@ class Workers : public People{
     public:
         Workers();
         void GiveTool(Tools *toolGiven);
+        void RemoveTool();
         bool HasTool();
 };
 

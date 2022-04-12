@@ -19,3 +19,5 @@ void UsefulObject::UpdateDurability(int amount) {
         Durability = 100;
     }
 };
+
+void UsefulObject::Break(){};

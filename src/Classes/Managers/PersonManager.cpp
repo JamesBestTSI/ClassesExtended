@@ -108,15 +108,16 @@ int PersonManager::farmerCount()        { return farmerPeople.size(); };
 int PersonManager::loggerCount()        { return loggerPeople.size(); };
 int PersonManager::minerCount()         { return minerPeople.size(); };
 
-People PersonManager::FindPerson(int uid){
-    People personsDetails = People();
+People* PersonManager::FindPerson(int uid){
+    People tempPerson = People();
+    People *personsDetails = &tempPerson;
 
     std::list<Unemployed>::iterator person = unemployedPeople.begin();
     for (int index = 0; index < unemployedPeople.size(); index++)
     {
         if (person->PUID() == uid)
         {
-            personsDetails = People(*person);
+            personsDetails = &*person;
             return personsDetails;
         }
         ++person;
@@ -127,7 +128,7 @@ People PersonManager::FindPerson(int uid){
     {
         if (farmer->PUID() == uid)
         {
-            personsDetails = People(*farmer);
+            personsDetails = &*farmer;
             return personsDetails;
         }
         ++farmer;
@@ -138,7 +139,7 @@ People PersonManager::FindPerson(int uid){
     {
         if (miner->PUID() == uid)
         {
-            personsDetails = People(*miner);
+            personsDetails = &*miner;
             return personsDetails;
         }
         ++miner;
@@ -149,7 +150,47 @@ People PersonManager::FindPerson(int uid){
     {
         if (logger->PUID() == uid)
         {
-            personsDetails = People(*logger);
+            personsDetails = &*logger;
+            return personsDetails;
+        }
+        ++logger;
+    }
+    return personsDetails;
+};
+
+Workers* PersonManager::FindWorker(int uid)
+{
+    Workers tempPerson = Workers();
+    Workers *personsDetails = &tempPerson;
+
+    std::list<Farmers>::iterator farmer = farmerPeople.begin();
+    for (int index = 0; index < farmerPeople.size(); index++)
+    {
+        if (farmer->PUID() == uid)
+        {
+            personsDetails = &*farmer;
+            return personsDetails;
+        }
+        ++farmer;
+    }
+
+    std::list<Miners>::iterator miner = minerPeople.begin();
+    for (int index = 0; index < minerPeople.size(); index++)
+    {
+        if (miner->PUID() == uid)
+        {
+            personsDetails = &*miner;
+            return personsDetails;
+        }
+        ++miner;
+    }
+
+    std::list<Loggers>::iterator logger = loggerPeople.begin();
+    for (int index = 0; index < loggerPeople.size(); index++)
+    {
+        if (logger->PUID() == uid)
+        {
+            personsDetails = &*logger;
             return personsDetails;
         }
         ++logger;
@@ -159,16 +200,16 @@ People PersonManager::FindPerson(int uid){
 
 void PersonManager::GivePersonJob(int uid, jobRole role){
     // Find Person
-    People personsDetails = FindPerson(uid);
-    if (personsDetails.PUID() == -1){
+    People* personsDetails = FindPerson(uid);
+    if (personsDetails->PUID() == -1){
         std::cout << "Unable to give person role, person with ID doesn't exist" << std::endl;
         return;
     }
     // Remove old person
-    RemovePerson(personsDetails.PRole(), personsDetails.PUID());
+    RemovePerson(personsDetails->PRole(), personsDetails->PUID());
     // Add person with new role
-    personsDetails.PRole(role);
-    AddPerson(personsDetails);
+    personsDetails->PRole(role);
+    AddPerson(*personsDetails);
 };
 
 void PersonManager::GivePersonTool(int uid, jobRole role, Tools *tool){
@@ -249,13 +290,17 @@ void PersonManager::GivePersonTool(int uid, jobRole role, Tools *tool){
 
 void PersonManager::ListPersonInfo(int uid){
     // Find Person
-    People personsDetails = FindPerson(uid);
+    People* personsDetails = FindPerson(uid);
 
-    if (personsDetails.PUID() != -1){
-        std::cout << "[ID:" << personsDetails.PUID() << "] - ";
-        if (personsDetails.PHoused())   {std::cout << "Housed ";}
+    if (personsDetails->PUID() != -1)
+    {
+        std::cout << "[ID:" << personsDetails->PUID() << "] - ";
+        if (personsDetails->PHoused())
+        {
+            std::cout << "Housed ";
+        }
         else                            {std::cout << "Homeless ";}
-        switch (personsDetails.PRole())
+        switch (personsDetails->PRole())
         {
             case jobRole::None:     { std::cout << "Unemployed "; break;}
             case jobRole::Farmer:   { std::cout << "Farmer "; break; }
@@ -265,9 +310,9 @@ void PersonManager::ListPersonInfo(int uid){
                 break;
         }
 
-        std::cout << personsDetails.PName() << std::endl;
-        std::cout << "Age:    " << personsDetails.PAge() << std::endl;
-        std::cout << "Hunger: " << personsDetails.PHunger() << std::endl;
+        std::cout << personsDetails->PName() << std::endl;
+        std::cout << "Age:    " << personsDetails->PAge() << std::endl;
+        std::cout << "Hunger: " << personsDetails->PHunger() << "%" << std::endl;
     }
     else{
         std::cout << "Person with that ID does not exist!" << std::endl;
@@ -290,7 +335,7 @@ void PersonManager::ListPersonInfo(People *personsDetails){
     }
 
     std::cout << personsDetails->PName() << "  -  ";
-    std::cout << "Age:    " << personsDetails->PAge() << "    -    " << "Hunger: " << personsDetails->PHunger() << std::endl;
+    std::cout << "Age:    " << personsDetails->PAge() << "    -    " << "Hunger: " << personsDetails->PHunger()<< "%" << std::endl;
 };
 
 void PersonManager::ListPeopleInRole(jobRole role){
@@ -477,4 +522,9 @@ int* PersonManager::MakeResources(int resources[3]){
     resources[1] = stone;
     resources[2] = crops;
     return resources;
+};
+
+void PersonManager::UnhousePerson(int uid){
+    People* person = FindPerson(uid);
+    person->PHoused(false);
 };

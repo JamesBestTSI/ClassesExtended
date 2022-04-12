@@ -6,13 +6,15 @@
 class Tools : public UsefulObject{
     private:
         bool available = true;
-        People *owner;
+        int ownerID;
 
     public:
         Tools();
         bool Available();
         void Available(bool isavailable);
         void SetOwner(People *owner);
+        int GetOwner();
+        void Break();
 };
 
 #endif

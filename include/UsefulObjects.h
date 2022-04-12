@@ -27,5 +27,7 @@ class UsefulObject{
         void UpdateAmount(int amount);
         int Durabilities();
         void UpdateDurability(int amount);
+
+        virtual void Break();
 };
 #endif

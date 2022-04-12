@@ -27,7 +27,8 @@ public:
     int minerCount();
     int farmerCount();
     int loggerCount();
-    People FindPerson(int uid);
+    People* FindPerson(int uid);
+    Workers* FindWorker(int uid);
     void GivePersonJob(int uid, jobRole role);
     void GivePersonTool(int uid, jobRole role, Tools *tool);
     void ListPersonInfo(int uid);
@@ -35,6 +36,7 @@ public:
     void ListPeopleInRole(jobRole role);
     void FeedPeople(std::list<Meals>* meals);
     int* MakeResources(int resourcesWSC[3]);
+    void UnhousePerson(int uid);
 };
 
 #endif

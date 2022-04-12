@@ -66,6 +66,7 @@ class Manager{
 
         void GivePersonJob();
         void GivePersonTool();
+        void GivePersonHouse();
 
         void FixHouse();
 
@@ -79,6 +80,6 @@ class Manager{
         void UpdateMeals();
         void UpdateTools();
 
-
+        void DisplayInfo();
 };
 #endif
