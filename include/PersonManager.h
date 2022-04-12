@@ -30,7 +30,7 @@ public:
     People* FindPerson(int uid);
     Workers* FindWorker(int uid);
     void GivePersonJob(int uid, jobRole role);
-    void GivePersonTool(int uid, jobRole role, Tools *tool);
+    void GivePersonTool(int uid, Tools *tool);
     void ListPersonInfo(int uid);
     void ListPersonInfo(People *personsDetails);
     void ListPeopleInRole(jobRole role);

@@ -169,16 +169,20 @@ void PersonManager::GivePersonJob(int uid, jobRole role){
     AddPerson(*personsDetails);
 };
 
-void PersonManager::GivePersonTool(int uid, jobRole role, Tools *tool){
+/**
+ * @brief Gives a person a tool to work with
+ * 
+ * @param uid the persons ID
+ * @param tool the tool we want to give them
+ */
+void PersonManager::GivePersonTool(int uid, Tools *tool){
     Workers *worker = FindWorker(uid);
     if(!worker->HasTool() && worker->PUID() !=-1){
         worker->GiveTool(tool);
         tool->Available(false);
         tool->SetOwner(worker);
     }
-    else{
-        std::cout << "This person has a tool" << std::endl;
-    }
+    else{ std::cout << "This person has a tool" << std::endl; }
 };
 
 /**
@@ -259,103 +263,76 @@ void PersonManager::ListPeopleInRole(jobRole role){
     }
 };
 
+/**
+ * @brief Feeds all the people if there are meals available
+ * 
+ * @param meals the list of meals we have available
+ */
 void PersonManager::FeedPeople(std::list<Meals>* meals)
 {
-    std::list<Farmers>::iterator farmer = farmerPeople.begin();
-    for (int index = 0; index < farmerPeople.size(); index++)
-    {
-        farmer->PHunger(farmer->PHunger() + hungerSpeed);
-        if (farmer->PHunger() >= 100)
-        {
-            if (meals->size() > 0)
-            {
-                std::cout << "Feeding farmer " << farmer->PUID() << std::endl;
-                meals->pop_front();
-                farmer->PEat();
-            }
-            else
-            {
-                std::cout << "Can't feed farmer " << farmer->PUID() << std::endl;
-                if (farmer->Starve())
-                {
-                    farmer = farmerPeople.erase(farmer);
-                    --farmer;
-                }
-            }
-        }
-        ++farmer;
-    }
-
-    std::list<Miners>::iterator miner = minerPeople.begin();
-    for (int index = 0; index < minerPeople.size(); index++)
-    {
-        miner->PHunger(miner->PHunger() + hungerSpeed);
-        if (miner->PHunger() >=100)
-        {
-            if (meals->size() > 0)
-            {
-                std::cout << "Feeding miner " << miner->PUID() << std::endl;
-                meals->pop_front();
-                miner->PEat();
-            }
-            else
-            {
-                std::cout << "Can't feed miner " << miner->PUID() << std::endl;
-
-                if (miner->Starve())
-                {
-                    miner = minerPeople.erase(miner);
-                    --miner;
-                }
-            }
-        }
-        ++miner;
-    }
-
-    std::list<Loggers>::iterator logger = loggerPeople.begin();
-    for (int index = 0; index < loggerPeople.size(); index++)
-    {
-        logger->PHunger(logger->PHunger() + hungerSpeed);
-        if (logger->PHunger() >=100)
-        {
-            if (meals->size() > 0)
-            {
-                std::cout << "Feeding logger " << logger->PUID() << std::endl;
-                meals->pop_front();
-                logger->PEat();
-            }
-            else
-            {
-                std::cout << "Can't feed logger " << logger->PUID() << std::endl;
-
-                if (logger->Starve())
-                {
-                    logger = loggerPeople.erase(logger);
-                    --logger;
-                }
-            }
-        }
-        ++logger;
-    }
-
-    std::list<Unemployed>::iterator person = unemployedPeople.begin();
-    for (int index = 0; index < unemployedPeople.size(); index++)
-    {
+    // Feed Farmers
+    for (std::list<Farmers>::iterator person = farmerPeople.begin(); person != farmerPeople.end(); person++){
         person->PHunger(person->PHunger() + hungerSpeed);
-        if (person->PHunger() >=100)
-        {
-            if (meals->size() > 0)
-            {
-                std::cout << "Feeding person " << person->PUID() << std::endl;
-                meals->pop_front();
-                person->PEat();
-            }
-            else
-            {
-                std::cout << "Can't feed person " << person->PUID() << std::endl;
+        if (person->PHunger() >= 100 && meals->size() == 0){
+            std::cout << "Can't feed farmer " << person->PUID() << std::endl;
+            if (person->Starve()){
+                person = farmerPeople.erase(person);
+                --person;
             }
         }
-        ++person;
+        else if (person->PHunger() >= 100 && meals->size() > 0){
+            std::cout << "Feeding farmer " << person->PUID() << std::endl;
+            meals->pop_front();
+            person->PEat();
+        }
+    }
+    // Feed Miners
+    for (std::list<Miners>::iterator person = minerPeople.begin(); person != minerPeople.end(); person++){
+        person->PHunger(person->PHunger() + hungerSpeed);
+        if (person->PHunger() >= 100 && meals->size() == 0){
+            std::cout << "Can't feed miner " << person->PUID() << std::endl;
+            if (person->Starve()){
+                person = minerPeople.erase(person);
+                --person;
+            }
+        }
+        else if (person->PHunger() >= 100 && meals->size() > 0){
+            std::cout << "Feeding miner " << person->PUID() << std::endl;
+            meals->pop_front();
+            person->PEat();
+        }
+    }
+    // Feed Loggers
+    for (std::list<Loggers>::iterator person = loggerPeople.begin(); person != loggerPeople.end(); person++){
+        person->PHunger(person->PHunger() + hungerSpeed);
+        if (person->PHunger() >= 100 && meals->size() == 0){
+            std::cout << "Can't feed logger " << person->PUID() << std::endl;
+            if (person->Starve()){
+                person = loggerPeople.erase(person);
+                --person;
+            }
+        }
+        else if (person->PHunger() >= 100 && meals->size() > 0){
+            std::cout << "Feeding logger " << person->PUID() << std::endl;
+            meals->pop_front();
+            person->PEat();
+        }
+    }
+    // Feed Unemployed
+    for (std::list<Unemployed>::iterator person = unemployedPeople.begin(); person != unemployedPeople.end(); person++){
+        person->PHunger(person->PHunger() + hungerSpeed);
+        if (person->PHunger() >= 100 && meals->size() == 0){
+            std::cout << "Can't feed unemployed " << person->PUID() << std::endl;
+            if (person->Starve()){
+                person = unemployedPeople.erase(person);
+                --person;
+            }
+        }
+        else if (person->PHunger() >= 100 && meals->size() > 0){
+            std::cout << "Feeding unemployed " << person->PUID() << std::endl;
+            meals->pop_front();
+            person->PEat();
+        }
     }
 };
 
@@ -412,7 +389,4 @@ void PersonManager::UnhousePerson(int uid){
     person->PHoused(false);
 };
 
-int PersonManager::PeopleCount()
-{
-    return (unemployedCount() + farmerCount() + loggerCount() + minerCount());
-};
+int PersonManager::PeopleCount() { return (unemployedCount() + farmerCount() + loggerCount() + minerCount());};
