@@ -2,9 +2,9 @@
 #include "../../../include/Manager.h"
 #include <random>
 
-const int HouseWoodCost = 10;
-const int MealCropsCost = 10;
-const int ToolStoneCost = 10;
+const int HouseWoodCost = 100;
+const int MealCropsCost = 25;
+const int ToolStoneCost = 15;
 
 Manager::Manager(){};
 
@@ -691,6 +691,10 @@ void Manager::GivePersonHouse(){
     }
     std::cout << "\nYou selected ";
     personManager.ListPersonInfo(uid);
+    if (person->PHoused()){
+        std::cout << "This person has a home!" << std::endl;
+        return;
+    }
 
     House *homeWithSpace = FindHouseWithSpace();
     if (homeWithSpace == 0)

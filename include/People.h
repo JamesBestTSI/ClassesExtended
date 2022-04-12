@@ -17,6 +17,7 @@ class People{
         std::string Name;
         int Age;
         int Hunger = 0;
+        int Health = 5;
         bool Housed = false;
         jobRole Role = jobRole::None;
 
@@ -41,6 +42,7 @@ class People{
         void PRole(jobRole role);
 
         // Methods
+        bool Starve();
         virtual bool PEat();
         virtual void PDie();
 

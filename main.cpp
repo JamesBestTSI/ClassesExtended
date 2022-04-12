@@ -58,6 +58,6 @@ void Introduction()
     std::cout << "\nThis system represents a basic working settlement.\nYou start with one house that can house 3 people and are tasked with growing the settlement larger." << std::endl;
     std::cout << "\nEach house holds 3 people.\n\nPeople get hungry and will need feeding.\nWhen their hunger hits 100% they will try and eat a meal.\nEach Meal costs 10 crops to make." << std::endl;
     std::cout << "\nEach person can be assigned a job.\nEach job will collect 1 resource so long as a person is housed and not starving.\nIf a worker has a tool, they will gather 2 resources instead." << std::endl;
-    std::cout << "\nTools cost 10 stone to create, and will break over time.\nHouses cost 10 wood and will break over time\nMeals cost 10 crops and degrade over time." << std::endl;
+    std::cout << "\nTools cost 15 stone to create, and will break over time.\nHouses cost 100 wood and will break over time\nMeals cost 25 crops and degrade over time." << std::endl;
     std::cout << "\n\nLets start by naming your first 3 people..." << std::endl;
 };

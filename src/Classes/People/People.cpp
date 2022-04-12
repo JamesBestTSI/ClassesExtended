@@ -29,11 +29,20 @@ jobRole People::PRole()         { return Role; };
 void People::PUID(int uid)              { UID = uid; }
 void People::PName(std::string name)    { Name = name; };
 void People::PAge(int age)              { Age = age; };
-void People::PHunger(int hunger)        { Hunger = hunger; };
+void People::PHunger(int hunger)        { Hunger = hunger;};
 void People::PHoused(bool housed)       { Housed = housed; };
 void People::PRole(jobRole role)        { Role = role; };
 
 // Methods
+bool People::Starve(){
+    Health--;
+    if (Health <=0){
+        PDie();
+        return true;
+    }
+    return false;
+}
+
 bool People::PEat() {
     Hunger = 0;
     return true;
