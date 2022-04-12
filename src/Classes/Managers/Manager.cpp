@@ -673,7 +673,7 @@ void Manager::GivePersonTool(){
         personManager.ListPersonInfo(uid);
         if (person->PRole() != jobRole::None)
         {
-            personManager.GivePersonTool(person->PUID(), person->PRole(), &*tool);
+            personManager.GivePersonTool(person->PUID(), &*tool);
             std::cout << "Person ID: " << person->PUID() << " " << person->PName() << " now has tool!" << std::endl;
         }
     }
