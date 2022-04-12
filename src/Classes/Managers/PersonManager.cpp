@@ -409,7 +409,8 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
                 std::cout << "Can't feed farmer " << farmer->PUID() << std::endl;
                 if (farmer->Starve())
                 {
-                    farmerPeople.erase(farmer);
+                    farmer = farmerPeople.erase(farmer);
+                    --farmer;
                 }
             }
         }
@@ -434,7 +435,8 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
 
                 if (miner->Starve())
                 {
-                    minerPeople.erase(miner);
+                    miner = minerPeople.erase(miner);
+                    --miner;
                 }
             }
         }
@@ -459,7 +461,8 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
 
                 if (logger->Starve())
                 {
-                    loggerPeople.erase(logger);
+                    logger = loggerPeople.erase(logger);
+                    --logger;
                 }
             }
         }

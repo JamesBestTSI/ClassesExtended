@@ -38,7 +38,7 @@ int main()
 
 void SetUpResources(Manager &mainManager)
 {
-    Resource wood = Resource("Wood", 10, ResourceTypes::Wood, UsefulObjectType::HouseObject);
+    Resource wood = Resource("Wood", 100, ResourceTypes::Wood, UsefulObjectType::HouseObject);
     Resource crops = Resource("Crops", 20, ResourceTypes::Crops, UsefulObjectType::MealObject);
     Resource stone = Resource("Stone", 20, ResourceTypes::Stone, UsefulObjectType::ToolObject);
     mainManager.AddResource(wood);

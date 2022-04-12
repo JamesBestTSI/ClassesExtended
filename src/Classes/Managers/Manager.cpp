@@ -800,7 +800,8 @@ void Manager::UpdateMeals()
     {
         meal->UpdateDurability(-3);
         if(meal->Durabilities()<=0){
-            meals.erase(meal); //Possible error here when deleting, check
+            meal = meals.erase(meal);
+            --meal;
         }
         ++meal; // Might not need this if something hist 0 durability
     }
@@ -818,7 +819,8 @@ void Manager::UpdateTools()
             Workers* person = personManager.FindWorker(tool->GetOwner());
             person->RemoveTool();
             tool->Break();
-            tools.erase(tool);
+            tool = tools.erase(tool);
+            --tool;
         }
         ++tool;
     }
