@@ -276,6 +276,7 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
         if (person->PHunger() >= 100 && meals->size() == 0){
             std::cout << "Can't feed farmer " << person->PUID() << std::endl;
             if (person->Starve()){
+                person->RemoveTool();
                 person = farmerPeople.erase(person);
                 --person;
             }
@@ -292,6 +293,7 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
         if (person->PHunger() >= 100 && meals->size() == 0){
             std::cout << "Can't feed miner " << person->PUID() << std::endl;
             if (person->Starve()){
+                person->RemoveTool();
                 person = minerPeople.erase(person);
                 --person;
             }
@@ -308,6 +310,7 @@ void PersonManager::FeedPeople(std::list<Meals>* meals)
         if (person->PHunger() >= 100 && meals->size() == 0){
             std::cout << "Can't feed logger " << person->PUID() << std::endl;
             if (person->Starve()){
+                person->RemoveTool();
                 person = loggerPeople.erase(person);
                 --person;
             }

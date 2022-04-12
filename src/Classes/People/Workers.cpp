@@ -11,6 +11,8 @@ void Workers::GiveTool(Tools *toolGiven){
 bool Workers::HasTool() { return hasTool; };
 
 void Workers::RemoveTool(){
+    tool->Available(true);
+    tool->SetOwner(NULL);
     tool = NULL;
     hasTool = false;
 };
