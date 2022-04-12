@@ -862,7 +862,5 @@ void Manager::DisplayInfo(){
             std::cout << stone->Amounts() / 10 << " tools" << std::endl;
         }
         std::cout << "\n";
-    }
-
-        
+    }      
 };

@@ -10,9 +10,6 @@ int main()
     Introduction();
     Manager mainManager = Manager();
     SetUpResources(mainManager);
-
-
-
     bool playGame = true;
 
     while (playGame){
