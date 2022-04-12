@@ -27,12 +27,13 @@ int main()
             char option = std::toupper(getchar());
             system("cls");
         }
+        if (mainManager.personManager.PeopleCount() == 0 && mainManager.GetResource("Wood")->Amounts() == 0 && mainManager.HouseCount() ==0){
+            playGame = false;
+            std::cout << "You have no people, no wood to make houses, and no working houses...\nGAME OVER!" << std::endl;
+            std::cout << "Press Enter to Exit.. " << std::endl;
+            char option = std::toupper(getchar());
+        }
     }
-
-        mainManager.GetResource("Wood")->UpdateAmount(1);
-
-
-
     return 0;
 };
 

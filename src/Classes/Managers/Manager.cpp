@@ -826,6 +826,22 @@ void Manager::UpdateTools()
     }
 };
 
+int Manager::HouseCount(){
+    int housesFixed = 0;
+
+    std::list<House>::iterator house = houses.begin();
+    for (int index = 0; index < houses.size(); index++)
+    {
+        if (house->Durabilities() > 0)
+        {
+            housesFixed++;
+        }
+        ++house;
+    }
+    return housesFixed;
+}
+
+
 void Manager::DisplayInfo(){
     Resource *wood = GetResource("Wood");
     Resource *crops = GetResource("Crops");

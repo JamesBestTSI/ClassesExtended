@@ -80,6 +80,8 @@ class Manager{
         void UpdateMeals();
         void UpdateTools();
 
+        int HouseCount();
+
         void DisplayInfo();
 };
 #endif

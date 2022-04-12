@@ -545,3 +545,8 @@ void PersonManager::UnhousePerson(int uid){
     People* person = FindPerson(uid);
     person->PHoused(false);
 };
+
+int PersonManager::PeopleCount()
+{
+    return (unemployedCount() + farmerCount() + loggerCount() + minerCount());
+};

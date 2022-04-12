@@ -37,6 +37,7 @@ public:
     void FeedPeople(std::list<Meals>* meals);
     int* MakeResources(int resourcesWSC[3]);
     void UnhousePerson(int uid);
+    int PeopleCount();
 };
 
 #endif
