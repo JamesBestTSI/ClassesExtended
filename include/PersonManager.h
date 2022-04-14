@@ -9,10 +9,10 @@
 #include "Unemployed.h"
 #include "Tools.h"
 #include "Meals.h"
+#include "Constants.h"
 
 class PersonManager{
 private:
-    int hungerSpeed = 10;
     int peopleUID = 0;
     std::list<Unemployed> unemployedPeople{};
     std::list<Miners> minerPeople{};

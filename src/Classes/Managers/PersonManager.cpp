@@ -343,46 +343,18 @@ int* PersonManager::MakeResources(int resources[3]){
     resources[0] = 0;
     resources[1] = 0;
     resources[2] = 0;
-
-    std::list<Farmers>::iterator farmer = farmerPeople.begin();
-    for (int index = 0; index < farmerPeople.size(); index++)
+    
+    for (std::list<Farmers>::iterator person = farmerPeople.begin(); person != farmerPeople.end(); person++)
     {
-        if (farmer->PHoused() && farmer->PHunger() <100)
-        {
-            resources[2]++;
-            if(farmer->HasTool()){
-                resources[2]++;
-            }
-        }
-        ++farmer;
+        if (person->PHoused() && person->PHunger() < 100) { resources[2]+= 1+(int)person->HasTool(); }
     }
-
-    std::list<Miners>::iterator miner = minerPeople.begin();
-    for (int index = 0; index < minerPeople.size(); index++)
+    for (std::list<Miners>::iterator person = minerPeople.begin(); person != minerPeople.end(); person++)
     {
-        if (miner->PHoused() && miner->PHunger() < 100)
-        {
-            resources[1]++;
-            if (miner->HasTool())
-            {
-                resources[1]++;
-            }
-        }
-        ++miner;
+        if (person->PHoused() && person->PHunger() < 100) { resources[1]+= 1+(int)person->HasTool(); }
     }
-
-    std::list<Loggers>::iterator logger = loggerPeople.begin();
-    for (int index = 0; index < loggerPeople.size(); index++)
+    for (std::list<Loggers>::iterator person = loggerPeople.begin(); person != loggerPeople.end(); person++)
     {
-        if (logger->PHoused() && logger->PHunger() < 100)
-        {
-            resources[0]++;
-            if (logger->HasTool())
-            {
-                resources[0]++;
-            }
-        }
-        ++logger;
+        if (person->PHoused() && person->PHunger() < 100) { resources[0]+= 1+(int)person->HasTool(); }
     }
     return resources;
 };

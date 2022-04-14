@@ -16,14 +16,12 @@ class Resource{
         std::string Name;
         int Amount;
         ResourceTypes ResourceType;
-        UsefulObjectType ObjectCreated;
 
     public:
         Resource();
-        Resource(std::string name, int amount, ResourceTypes resourceType, UsefulObjectType objectCreated);
+        Resource(std::string name, int amount, ResourceTypes resourceType);
         std::string ResourceName();
         int Amounts();
         void UpdateAmount(int amount);
-        bool CreateLinkedObject();
 };
 #endif

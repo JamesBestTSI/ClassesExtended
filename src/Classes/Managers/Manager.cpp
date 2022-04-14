@@ -1,10 +1,7 @@
 #include <iostream>
 #include "../../../include/Manager.h"
+#include "../../../include/Constants.h"
 #include <random>
-
-const int HouseWoodCost = 100;
-const int MealCropsCost = 25;
-const int ToolStoneCost = 15;
 
 Manager::Manager(){};
 
@@ -476,10 +473,10 @@ bool Manager::CreatePerson()
  */
 bool Manager::CreateHouse()
 {
-    if (GetResource("Wood")->Amounts() >= HouseWoodCost)
+    if (GetResource("Wood")->Amounts() >= costOfHouse)
     {
         // Can create house
-        GetResource("Wood")->UpdateAmount(-HouseWoodCost);
+        GetResource("Wood")->UpdateAmount(-costOfHouse);
         House newHouse = House();
         newHouse.SetID(houseUID);
         newHouse.UsefulObjectName("Small house");
@@ -503,10 +500,10 @@ bool Manager::CreateHouse()
  */
 bool Manager::CreateMeal()
 {
-    if (GetResource("Crops")->Amounts() >= MealCropsCost)
+    if (GetResource("Crops")->Amounts() >= costOfMeal)
     {
         // Can create meal
-        GetResource("Crops")->UpdateAmount(-MealCropsCost);
+        GetResource("Crops")->UpdateAmount(-costOfMeal);
         Meals newMeal = Meals();
         newMeal.UsefulObjectName("Small Meal");
         newMeal.UpdateDurability(100);
@@ -528,10 +525,10 @@ bool Manager::CreateMeal()
  */
 bool Manager::CreateTool()
 {
-    if (GetResource("Stone")->Amounts() >= ToolStoneCost)
+    if (GetResource("Stone")->Amounts() >= costOfTool)
     {
         // Can create tool
-        GetResource("Stone")->UpdateAmount(-ToolStoneCost);
+        GetResource("Stone")->UpdateAmount(-costOfTool);
         Tools newTool = Tools();
         newTool.UsefulObjectName("Small Tool");
         newTool.UpdateDurability(100);
@@ -554,7 +551,7 @@ House *Manager::FindHouseWithSpace(){
     std::list<House>::iterator house = houses.begin();
     for (int index = 0; index < houses.size(); index++)
     {
-        if (house->NumberOfPeopleInHouse() < 3 )
+        if (house->NumberOfPeopleInHouse() < peoplePerHouse )
         {
             return &*house;
         }
@@ -782,11 +779,11 @@ void Manager::UpdateHouses()
         }
         if (house->Durabilities() <=0){
             // Unhouse people
-            int peopleToUnhouse[3];
+            int peopleToUnhouse[peoplePerHouse];
             house->UnhousePeople(peopleToUnhouse);
-            personManager.UnhousePerson(peopleToUnhouse[0]);
-            personManager.UnhousePerson(peopleToUnhouse[1]);
-            personManager.UnhousePerson(peopleToUnhouse[2]);
+            for (int personIndex = 0; personIndex < peoplePerHouse; personIndex++){
+                personManager.UnhousePerson(peopleToUnhouse[personIndex]);
+            }
             house->Break();
         }
         ++house;
